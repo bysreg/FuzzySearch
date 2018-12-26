@@ -56,7 +56,7 @@
         <Parent guid="guidFuzzySearchWindowPackageCmdSet" id="MyMenuGroup"/>
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>FuzzySearchWindow</ButtonText>
+          <ButtonText>Fuzzy Search</ButtonText>
         </Strings>
       </Button>
     </Buttons>

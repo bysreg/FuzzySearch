@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="FuzzySearch.40caf995-1f83-46d8-bd00-c5e6abbf6ab6" Version="1.0" Language="en-US" Publisher="Muhammad Hilman Beyri" />
-    <DisplayName>FuzzySearch</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Identity Id="FuzzySearch.40caf995-1f83-46d8-bd00-c5e6abbf6ab6" Version="0.1" Language="en-US" Publisher="Muhammad Hilman Beyri (Bysreg)" />
+    <DisplayName>Fuzzy Search</DisplayName>
+    <Description xml:space="preserve">Fuzzy Search for files in &lt;workspace&gt;/src and Fuzzy SearchTd</Description>
+    <License>LICENSE.txt</License>
+    <Tags>fuzzy search, cmake, open folder, fuzzy, search</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0, 16.0)" />
