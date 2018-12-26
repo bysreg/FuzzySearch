@@ -15,7 +15,16 @@
         <StackPanel DockPanel.Dock="Top" VerticalAlignment="Top" Margin="0, 10, 0, 15">
             <TextBox x:Name="textBox" Height="23" TextWrapping="Wrap" Text="" TextChanged="TextBox_TextChanged"/>
         </StackPanel>
-        <ListBox DockPanel.Dock="Bottom" x:Name="listBox"/>
+        <ListBox DockPanel.Dock="Bottom" x:Name="listBox" ItemsSource="{Binding}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FileName}" />
+                        <TextBlock Text="{Binding FullPath}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </DockPanel>
 
 </UserControl>

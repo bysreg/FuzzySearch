@@ -56,7 +56,7 @@
 
         private void OpenSelected()
         {
-            string full_path = FuzzySearchWindowCommand.Instance.WorkspaceFiles[listBox.SelectedIndex].full_path;
+            string full_path = ((WorkspaceFileInfo)listBox.Items[listBox.SelectedIndex]).FullPath;
             FuzzySearchWindowCommand.Instance.OpenFile(full_path);
 
             Hide();
@@ -104,14 +104,14 @@
             // - cache the previous search result, if a character is added to the 
             //   search query, then we only need to do fuzzy match against the
             //   the previous search result
-            List<string> results = new List<string>();
+            List<WorkspaceFileInfo> results = new List<WorkspaceFileInfo>();
             foreach (WorkspaceFileInfo file_info in FuzzySearchWindowCommand.Instance.WorkspaceFiles)
             {
                 // first, do fuzzy match agains the filename
                 // if it returns false, then we do fuzzy match against the full path
                 if (FuzzyMatch(search, file_info.filename) || FuzzyMatch(search, file_info.full_path))
                 {
-                    results.Add(file_info.filename + " " + file_info.full_path);
+                    results.Add(file_info);
                 }
             }
 

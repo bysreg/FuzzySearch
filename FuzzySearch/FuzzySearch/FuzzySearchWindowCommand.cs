@@ -136,6 +136,9 @@ namespace FuzzySearch
             public readonly string full_path;
             public readonly string filename;
 
+            public string FullPath { get { return full_path; } }
+            public string FileName { get { return filename; } }
+
             public WorkspaceFileInfo(string full_path, string filename)
             {
                 this.full_path = full_path;
