@@ -1,5 +1,6 @@
 ﻿namespace FuzzySearch
 {
+    using EnvDTE;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -29,11 +30,36 @@
         {
             // for some reason escape is not detected in here
             // so added "tab" in here in order to close this tool window 
-            if (e.Key == System.Windows.Input.Key.Escape || e.Key == System.Windows.Input.Key.Tab)
+            if (e.Key == System.Windows.Input.Key.Escape || e.Key == System.Windows.Input.Key.Tab && e.KeyboardDevice.Modifiers == System.Windows.Input.ModifierKeys.None)
             {
                 Hide();
                 e.Handled = true;
             }
+            else if (e.Key == System.Windows.Input.Key.Down)
+            {
+                if (listBox.SelectedIndex < listBox.Items.Count - 1)
+                    ++listBox.SelectedIndex;
+                e.Handled = true;
+            }
+            else if (e.Key == System.Windows.Input.Key.Up)
+            {
+                if (listBox.SelectedIndex > 0)
+                    --listBox.SelectedIndex;
+                e.Handled = true;
+            }
+            else if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                OpenSelected();
+                e.Handled = true;
+            }
+        }
+
+        private void OpenSelected()
+        {
+            string full_path = FuzzySearchWindowCommand.Instance.WorkspaceFiles[listBox.SelectedIndex].full_path;
+            FuzzySearchWindowCommand.Instance.OpenFile(full_path);
+
+            Hide();
         }
 
         private void Hide()

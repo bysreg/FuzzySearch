@@ -177,5 +177,12 @@ namespace FuzzySearch
                 }
             }
         }
+
+        public void OpenFile(string full_path)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            dte.ItemOperations.OpenFile(full_path, EnvDTE.Constants.vsViewKindPrimary);
+        }
     }
 }
