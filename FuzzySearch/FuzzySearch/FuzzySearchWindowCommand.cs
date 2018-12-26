@@ -119,9 +119,21 @@ namespace FuzzySearch
             (window as FuzzySearchWindow).Show();
         }
 
-        private List<string> workspace_files = new List<string>();
+        private List<WorkspaceFileInfo> workspace_files = new List<WorkspaceFileInfo>();
 
-        public List<string> WorkspaceFiles
+        public struct WorkspaceFileInfo
+        {
+            public readonly string full_path;
+            public readonly string filename;
+
+            public WorkspaceFileInfo(string full_path, string filename)
+            {
+                this.full_path = full_path;
+                this.filename = filename;
+            }
+        }
+
+        public List<WorkspaceFileInfo> WorkspaceFiles
         {
             get
             {
@@ -134,6 +146,7 @@ namespace FuzzySearch
         {
             workspace_files.Clear();
 
+            // todo : make this a setting configurable in a text file
             //only iterate on these sub-folders
             string[] subfolders = { "src", "test" };
 
@@ -142,7 +155,12 @@ namespace FuzzySearch
                 try
                 {
                     string[] files = Directory.GetFiles(root_path + "\\" + subfolder, "*", SearchOption.AllDirectories);
-                    workspace_files.AddRange(files);
+
+                    foreach (string full_path in files)
+                    {
+                        string filename = Path.GetFileName(full_path);
+                        workspace_files.Add(new WorkspaceFileInfo(full_path, filename));
+                    }
                 }
                 catch (DirectoryNotFoundException e)
                 {

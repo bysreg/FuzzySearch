@@ -5,6 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
     using System.Windows.Controls;
+    using static FuzzySearch.FuzzySearchWindowCommand;
 
     /// <summary>
     /// Interaction logic for FuzzySearchWindowControl.
@@ -51,12 +52,12 @@
         bool FuzzyMatch(string search, string str)
         {
             int search_i = 0, search_len = search.Length;
-            int str_i = 0, str_len = str.Length;
+            int str_i = 0, full_path_len = str.Length;
 
-            if (search_len > str_len)
+            if (search_len > full_path_len)
                 return false;
 
-            while (search_i < search_len && str_i < str_len)
+            while (search_i < search_len && str_i < full_path_len)
             {
                 if (search[search_i] == Char.ToLower(str[str_i]))
                 {
@@ -72,12 +73,19 @@
         {
             string search = textBox.Text.ToLowerInvariant();
 
+            // todo: 
+            // - do this in parallel. 
+            // - cache the previous search result, if a character is added to the 
+            //   search query, then we only need to do fuzzy match against the
+            //   the previous search result
             List<string> results = new List<string>();
-            foreach (string str in FuzzySearchWindowCommand.Instance.WorkspaceFiles)
+            foreach (WorkspaceFileInfo file_info in FuzzySearchWindowCommand.Instance.WorkspaceFiles)
             {
-                if (FuzzyMatch(search, str))
+                // first, do fuzzy match agains the filename
+                // if it returns false, then we do fuzzy match against the full path
+                if (FuzzyMatch(search, file_info.filename) || FuzzyMatch(search, file_info.full_path))
                 {
-                    results.Add(str);
+                    results.Add(file_info.filename + " " + file_info.full_path);
                 }
             }
 
