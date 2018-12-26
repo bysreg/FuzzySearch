@@ -116,6 +116,16 @@ namespace FuzzySearch
                 LoadAllFiles(workspace_path);
             }
 
+            //// HACK: hardcoded the x position of the tool window for testing
+#if DEBUG
+            IVsWindowFrame frame = window.Frame as IVsWindowFrame;
+            VSSETFRAMEPOS[] temp = new VSSETFRAMEPOS[100]; // not really sure what array size for this should be
+            Guid temp2;
+            int px, py, pcx, pcy;
+            frame.GetFramePos(temp, out temp2, out px, out py, out pcx, out pcy);
+            frame.SetFramePos(VSSETFRAMEPOS.SFP_fMove, ref temp2, 400, py, pcx, pcy);
+#endif
+
             (window as FuzzySearchWindow).Show();
         }
 
@@ -139,7 +149,6 @@ namespace FuzzySearch
             {
                 return workspace_files;
             }
-
         }
 
         private void LoadAllFiles(string root_path)
