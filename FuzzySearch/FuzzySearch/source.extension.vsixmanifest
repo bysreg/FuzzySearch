@@ -3,7 +3,9 @@
     <Metadata>
         <Identity Id="FuzzySearch.40caf995-1f83-46d8-bd00-c5e6abbf6ab6" Version="0.1" Language="en-US" Publisher="Bysreg" />
         <DisplayName>Fuzzy Search</DisplayName>
-        <Description xml:space="preserve">Fuzzy Search for files in &lt;workspace&gt;/src and &lt;workspace&gt;/test</Description>
+        <Description xml:space="preserve">Fuzzy Search for files in &lt;workspace&gt;/src and &lt;workspace&gt;/test
+
+</Description>
         <License>LICENSE.txt</License>
         <Tags>fuzzy search, cmake, open folder, fuzzy, search</Tags>
     </Metadata>

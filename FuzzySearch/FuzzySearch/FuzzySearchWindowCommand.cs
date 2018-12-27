@@ -49,7 +49,7 @@ namespace FuzzySearch
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
-            var menuItem = new MenuCommand(this.Execute, menuCommandID);
+            var menuItem = new MenuCommand(this.ExecuteAsync, menuCommandID);
             commandService.AddCommand(menuItem);
 
             dte = FuzzySearchWindowPackage.GetGlobalService(typeof(DTE)) as DTE;
@@ -97,9 +97,9 @@ namespace FuzzySearch
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event args.</param>
-        private void Execute(object sender, EventArgs e)
+        private async void ExecuteAsync(object sender, EventArgs e)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
@@ -113,7 +113,7 @@ namespace FuzzySearch
             if (dte.Solution.FullName != "" && workspace_path != dte.Solution.FullName)
             {
                 workspace_path = dte.Solution.FullName;
-                LoadAllFiles(workspace_path);
+                await LoadAllFilesAsync(workspace_path);
             }
 
             //// HACK: hardcoded the x position of the tool window for testing
@@ -154,19 +154,36 @@ namespace FuzzySearch
             }
         }
 
-        private void LoadAllFiles(string root_path)
+        private async Task LoadAllFilesAsync(string root_path)
         {
             workspace_files.Clear();
 
-            // todo : make this a setting configurable in a text file
-            //only iterate on these sub-folders
-            string[] subfolders = { "src", "test" };
+            List<string> subfolders = new List<string>();
+            try
+            {
+                using (StreamReader sr = new StreamReader(Path.Combine(root_path, ".fuzzysearchsettings")))
+                {
+                    string line;
+                    while ((line = await sr.ReadLineAsync()) != null)
+                    {
+                        subfolders.Add(line);
+                    }
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                // do nothing
+            }
+
+            // if subfolders is still zero count, then default to everything in this root_path
+            if (subfolders.Count == 0)
+                subfolders.Add(root_path);
 
             foreach (string subfolder in subfolders)
             {
                 try
                 {
-                    string[] files = Directory.GetFiles(root_path + "\\" + subfolder, "*", SearchOption.AllDirectories);
+                    string[] files = Directory.GetFiles(Path.Combine(root_path, subfolder), "*", SearchOption.AllDirectories);
 
                     foreach (string full_path in files)
                     {
@@ -174,7 +191,7 @@ namespace FuzzySearch
                         workspace_files.Add(new WorkspaceFileInfo(full_path, filename));
                     }
                 }
-                catch (DirectoryNotFoundException e)
+                catch (DirectoryNotFoundException)
                 {
                     // do nothing
                 }
