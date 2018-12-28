@@ -9,6 +9,7 @@ namespace FuzzySearch
         public const int unmatched_leading_letters_score = -3;
         public const int max_unmatch_leading_letters = 3; // this is character count
         public const int unmatched_letter_score = -1;
+        public const int camel_case_score = 10;
 
         private static bool IsSeparator(char c)
         {
@@ -60,6 +61,12 @@ namespace FuzzySearch
                     // then it's worth more
                     if (str_i > 0 && IsSeparator(str[str_i - 1]))
                         score += prev_separator_score;
+
+                    // score : if the previous character is lowercase
+                    // and the current matched character case is uppercase
+                    // then it's worth more
+                    if (str_i > 0 && Char.IsUpper(str[str_i]) && Char.IsLower(str[str_i - 1]))
+                        score += camel_case_score;
                 }
                 else
                 {

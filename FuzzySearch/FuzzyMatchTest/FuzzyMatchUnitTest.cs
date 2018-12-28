@@ -28,7 +28,7 @@ namespace FuzzyMatchTest
         {
             Tuple<bool, int> result;
 
-            // basic test
+            // basic test (regular match letters doesn't affect the score)
             result = FuzzyMatch("a", "a");
             Assert.AreEqual(0, result.Item2);
 
@@ -63,6 +63,11 @@ namespace FuzzyMatchTest
             result = FuzzyMatch("ab", "xyzpq");
             Assert.AreEqual(max_unmatch_leading_letters, 3); // we assume in this test that max unmatch leading characters is 3
             Assert.AreEqual(unmatched_letter_score * 5 + unmatched_leading_letters_score * 3, result.Item2);
+
+            // matches 'B' which is camel case (it's right after a lowercase letter 'x')
+            // also 'xx' are unmatched regular characters
+            result = FuzzyMatch("ab", "axxB");
+            Assert.AreEqual(camel_case_score + unmatched_letter_score * 2, result.Item2);
         }
     }
 }
