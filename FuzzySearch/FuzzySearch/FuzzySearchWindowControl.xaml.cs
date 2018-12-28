@@ -7,6 +7,7 @@
     using System.Windows;
     using System.Windows.Controls;
     using static FuzzySearch.FuzzySearchWindowCommand;
+    using static FuzzySearch.Algorithm;
 
     /// <summary>
     /// Interaction logic for FuzzySearchWindowControl.
@@ -73,52 +74,6 @@
             {
                 textBox.Focus();
             }
-        }
-
-        // First element of the tuple would be true if search "matches" the str string
-        // Second element of the tuple would be the score of the "matchness"
-        Tuple<bool, int> FuzzyMatch(string search, string str)
-        {
-            int search_i = 0, search_len = search.Length;
-            int str_i = 0, str_len = str.Length;
-
-            bool prev_matched = false;
-            int first_str_match = -1;
-
-            int score = 0;
-
-            if (search_len > str_len)
-                return Tuple.Create(false, score);
-
-            while (search_i < search_len && str_i < str_len)
-            {
-                if (search[search_i] == Char.ToLower(str[str_i]))
-                {
-                    ++search_i;
-
-                    // consecutive matches worth more
-                    if (prev_matched)
-                        score += 5;
-
-                    prev_matched = true;
-
-                    if (first_str_match == -1)
-                        first_str_match = str_i;
-                }
-                else
-                {
-                    prev_matched = false;
-                }
-                ++str_i;
-            }
-
-            // unmatched letter scores negatively (every unmatch letter is -1)
-            score -= (str_len - search_i);
-
-            // unmatched leading letter affect negatively (capped to -9)
-            score -= Math.Min(first_str_match * 3, 9);
-
-            return Tuple.Create(search_i == search_len, score);
         }
 
         struct SearchResult

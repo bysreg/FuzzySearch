@@ -54,6 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FuzzyMatch.cs" />
     <Compile Include="FuzzySearchWindow.cs" />
     <Compile Include="FuzzySearchWindowCommand.cs" />
     <Compile Include="FuzzySearchWindowControl.xaml.cs">
