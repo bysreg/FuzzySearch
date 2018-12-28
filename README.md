@@ -9,7 +9,6 @@ Select the suggestion using arrow key up and down and pressing enter on the sugg
 
 # Todo
 - Do exhaustive search for fuzzy search
-- consider camel case for heuristic (just like separator)
 - Able to close window using escape key
 - Pressing up and down should scroll the suggestion list
 - bold the letters that match with the search query
