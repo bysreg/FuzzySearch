@@ -158,6 +158,12 @@ namespace FuzzySearch
         {
             workspace_files.Clear();
 
+            if (!File.GetAttributes(root_path).HasFlag(FileAttributes.Directory))
+            {
+                // if the root_path is not a directory, then get the directory of the file
+                root_path = Path.GetDirectoryName(root_path);
+            }
+
             List<string> subfolders = new List<string>();
             try
             {
@@ -170,7 +176,7 @@ namespace FuzzySearch
                     }
                 }
             }
-            catch (FileNotFoundException)
+            catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException)
             {
                 // do nothing
             }
