@@ -57,7 +57,11 @@
 
         private void OpenSelected()
         {
-            string full_path = ((WorkspaceFileInfo)listBox.Items[listBox.SelectedIndex]).FullPath;
+            if (listBox.Items.Count == 0)
+                return;
+
+            int index = Math.Max(listBox.SelectedIndex, 0);
+            string full_path = ((SearchResult)listBox.Items[index]).FullPath;
             FuzzySearchWindowCommand.Instance.OpenFile(full_path);
 
             Hide();
@@ -73,6 +77,8 @@
             if (this.IsVisible)
             {
                 textBox.Focus();
+                textBox.Text = ""; // clear the search text box
+                listBox.SelectedIndex = 0;
             }
         }
 
