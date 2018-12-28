@@ -1,0 +1,5 @@
+# 0.2
+- add several more heuristics to fuzzy search
+
+# 0.1
+- initial release
