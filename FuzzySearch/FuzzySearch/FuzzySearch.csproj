@@ -82,6 +82,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="RELEASENOTES.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\FuzzySearchWindowCommand.png" />
     <Content Include="Resources\FuzzySearchWindowPackage.ico" />
     <Content Include="stylesheet.css" />
