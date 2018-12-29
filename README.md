@@ -8,7 +8,6 @@ Close the Fuzzy Search window using "Tab".
 Select the suggestion using arrow key up and down and pressing enter on the suggestion
 
 # Todo
-- Do exhaustive search for fuzzy search
 - Able to close window using escape key
 - Pressing up and down should scroll the suggestion list
 - bold the letters that match with the search query
