@@ -111,11 +111,11 @@
             foreach (WorkspaceFileInfo file_info in FuzzySearchWindowCommand.Instance.WorkspaceFiles)
             {
                 // first, do fuzzy match agains the filename instead of the fullpath
-                Tuple<bool, int> result = FuzzyMatch(search, file_info.filename);
+                Tuple<bool, int> result = ExhaustiveFuzzyMatch(search, file_info.filename);
                 if (!result.Item1)
                 {
                     // if there's no match agains the filename, then we do fuzzy match against the full path
-                    result = FuzzyMatch(search, file_info.full_path);
+                    result = ExhaustiveFuzzyMatch(search, file_info.full_path);
                 }
                 if (result.Item1)
                     results.Add(new SearchResult(file_info.full_path, file_info.filename, result.Item2));
