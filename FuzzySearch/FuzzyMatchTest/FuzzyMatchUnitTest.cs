@@ -10,16 +10,16 @@ namespace FuzzyMatchTest
         [TestMethod]
         public void MatchTest()
         {
-            Tuple<bool, int> result = FuzzyMatch("abc", "abc");
+            Tuple<bool, int> result = ExhaustiveFuzzyMatch("abc", "abc");
             Assert.AreEqual(result.Item1, true);
 
-            result = FuzzyMatch("abc", "abcd");
+            result = ExhaustiveFuzzyMatch("abc", "abcd");
             Assert.AreEqual(result.Item1, true);
 
-            result = FuzzyMatch("abcde", "abcd");
+            result = ExhaustiveFuzzyMatch("abcde", "abcd");
             Assert.AreEqual(result.Item1, false);
 
-            result = FuzzyMatch("abc", "axxxbxxxcxxxx");
+            result = ExhaustiveFuzzyMatch("abc", "axxxbxxxcxxxx");
             Assert.AreEqual(result.Item1, true);
         }
 
