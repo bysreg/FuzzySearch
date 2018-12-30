@@ -25,12 +25,22 @@
 
             parent = window;
             textBox.PreviewKeyDown += TextBox_PreviewKeyDown;
+            this.IsKeyboardFocusWithinChanged += FuzzySearchWindowControl_IsKeyboardFocusWithinChanged;
+        }
+
+        private void FuzzySearchWindowControl_IsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(bool)e.NewValue)
+            {
+                Hide();
+            }
         }
 
         private void TextBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            // for some reason escape is not detected in here
-            // so added "tab" in here in order to close this tool window 
+            // note that escape might not be triggering previewkeydown function as
+            // escape usually is already assigned to other shortcut Window.ActivateDocumentWindow
+            // so added "tab" in here in order to close this tool window
             if (e.Key == System.Windows.Input.Key.Escape || e.Key == System.Windows.Input.Key.Tab && e.KeyboardDevice.Modifiers == System.Windows.Input.ModifierKeys.None)
             {
                 Hide();
